@@ -95,7 +95,6 @@ Sử dụng Docker để chạy Cassandra server nhanh chóng.
 
 Mở CMD hoặc PowerShell.
 
-Tải ảnh (Image):
 
 Bash
 
@@ -147,24 +146,11 @@ PowerShell
 pip install pyspark cassandra-driver pandas matplotlib seaborn numpy
 5. Dữ liệu dự án
 Dataset
-Tải bộ dữ liệu The Attentive Cursor Dataset tại link sau:
 
 GitLab: The Attentive Cursor Dataset
 
-Cấu trúc thư mục dự án (Gợi ý)
-Sau khi hoàn tất, thư mục dự án của bạn nên trông như sau để dễ quản lý:
-
-Plaintext
-
-MyProject/
-├── cassandra_env/          # Môi trường ảo Python
-├── data/                   # Chứa dữ liệu tải từ GitLab
-│   └── cursor_data.csv
-├── src/                    # Chứa code Python
-│   └── analysis.py
-└── README.md
 Chạy thử Code
-Trong file Python (src/analysis.py), đoạn code đầu tiên cần có để kiểm tra kết nối:
+Trong file Python (src/analysis.py) tự tạo mới, đoạn code đầu tiên cần có để kiểm tra kết nối:
 
 Python
 
