@@ -1,0 +1,7 @@
+pandas
+numpy
+pyspark==3.3.2
+cassandra-driver
+matplotlib
+seaborn
+pyarrow
