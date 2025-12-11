@@ -22,19 +22,19 @@ Vui lòng tải các thành phần sau (chưa cần cài đặt ngay):
 ### **A. Java Development Kit (JDK)**
 
 * Phiên bản: **OpenJDK 11 (LTS)**
-* Link: *Adoptium Temurin OpenJDK 11*
+* Link: *https://adoptium.net/fr/temurin/releases?version=11&os=any&arch=any*
 * Chọn file **.msi**, hệ điều hành **Windows x64**.
 
 ### **B. Apache Spark**
 
 * Phiên bản: **Spark 3.5.1** (Pre-built for Hadoop 3.3)
-* Link: *spark-3.5.1-bin-hadoop3.tgz*
+* Link: *https://repo.huaweicloud.com/apache/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz*
 * Lưu ý: File tải về chỉ cần **giải nén**, không cần cài đặt.
 
 ### **C. Hadoop Winutils (Windows Only)**
 
 * Phiên bản: **Hadoop 3.3.6**
-* Tải từ repo Winutils: **winutils.exe**
+* Tải từ repo Winutils: *https://github.com/cdarlint/winutils/blob/master/hadoop-3.3.6/bin/winutils.exe*
 * (Nếu có) tải thêm **hadoop.dll** (đặt cùng thư mục bin).
 
 ### **D. Python**
