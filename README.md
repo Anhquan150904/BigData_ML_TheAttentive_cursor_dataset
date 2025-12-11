@@ -1,163 +1,183 @@
-📘 Hướng Dẫn Thiết Lập Môi Trường Phân Tích Dữ Liệu (Spark & Cassandra)
-Tài liệu này hướng dẫn chi tiết cách cài đặt môi trường để chạy dự án phân tích hành vi người dùng (Attentive Cursor Dataset) sử dụng PySpark, Cassandra (Docker) và Python 3.10 trên Windows.
+# 📘 Hướng Dẫn Thiết Lập Môi Trường Phân Tích Dữ Liệu (Spark & Cassandra)
 
-📋 Mục lục
-Yêu cầu hệ thống & Tải phần mềm
+Tài liệu này hướng dẫn chi tiết cách thiết lập môi trường để chạy dự án phân tích hành vi người dùng (Attentive Cursor Dataset) sử dụng **PySpark**, **Cassandra (Docker)** và **Python 3.10** trên Windows.
 
-Cài đặt & Cấu hình Biến môi trường (Quan trọng)
+---
 
-Cài đặt Database Cassandra (Docker)
+## 📋 Mục lục
 
-Thiết lập Môi trường Python
+1. [Yêu cầu hệ thống & Tải phần mềm](#1-yêu-cầu-hệ-thống--tải-phần-mềm)
+2. [Cài đặt & Cấu hình biến môi trường](#2-cài-đặt--cấu-hình-biến-môi-trường-quan-trọng)
+3. [Cài đặt Database Cassandra bằng Docker](#3-cài-đặt-database-cassandra-docker)
+4. [Thiết lập môi trường Python](#4-thiết-lập-môi-trường-python)
+5. [Dữ liệu dự án](#5-dữ-liệu-dự-án)
+6. [Chạy thử Spark](#️⃣-chạy-thử-code)
 
-Dữ liệu dự án
+---
 
-1. Yêu cầu hệ thống & Tải phần mềm
-Vui lòng tải xuống các thành phần sau (chưa cần cài đặt ngay, chỉ cần tải về):
+## 1. Yêu cầu hệ thống & Tải phần mềm
 
-A. Java Development Kit (JDK)
-Spark yêu cầu Java để chạy.
+Vui lòng tải các thành phần sau (chưa cần cài đặt ngay):
 
-Phiên bản: Java 11 (LTS)
+### **A. Java Development Kit (JDK)**
 
-Link tải: Adoptium Temurin OpenJDK 11
+* Phiên bản: **OpenJDK 11 (LTS)**
+* Link: *Adoptium Temurin OpenJDK 11*
+* Chọn file **.msi**, hệ điều hành **Windows x64**.
 
-Lưu ý: Chọn file cài đặt .msi cho Windows (x64).
+### **B. Apache Spark**
 
-B. Apache Spark
-Phiên bản: 3.5.1 (Pre-built for Hadoop 3.3)
+* Phiên bản: **Spark 3.5.1** (Pre-built for Hadoop 3.3)
+* Link: *spark-3.5.1-bin-hadoop3.tgz*
+* Lưu ý: File tải về chỉ cần **giải nén**, không cần cài đặt.
 
-Link tải: Huawei Cloud Repo - spark-3.5.1-bin-hadoop3.tgz
+### **C. Hadoop Winutils (Windows Only)**
 
-Lưu ý: File này tải về cần giải nén, không cần chạy cài đặt.
+* Phiên bản: **Hadoop 3.3.6**
+* Tải từ repo Winutils: **winutils.exe**
+* (Nếu có) tải thêm **hadoop.dll** (đặt cùng thư mục bin).
 
-C. Hadoop Winutils (Cho Windows)
-Windows cần file này để giả lập môi trường Hadoop.
+### **D. Python**
 
-Phiên bản: Hadoop 3.3.6
+* Phiên bản: **Python 3.10.x**
 
-Link tải: Winutils GitHub (winutils.exe)
+---
 
-Cần tải thêm: hadoop.dll (cùng thư mục trong link trên nếu có, hoặc tìm trong repo đó).
+## 2. Cài đặt & Cấu hình Biến môi trường (Quan trọng)
 
-D. Python
-Phiên bản: 3.10.x
+Nếu làm sai bước này, Spark sẽ không chạy.
 
-Link tải: Python 3.10.11 Download
+### **Bước 2.1: Cài đặt Java**
 
-2. Cài đặt & Cấu hình Biến môi trường (Quan trọng)
-Đây là bước quan trọng nhất, nếu làm sai Spark sẽ không chạy.
+* Chạy file cài JDK 11.
+* Ghi lại đường dẫn cài đặt, ví dụ:
 
-Bước 2.1: Cài đặt Java
-Chạy file cài đặt JDK 11 đã tải.
+  ```
+  C:\Program Files\Eclipse Adoptium\jdk-11.0.x
+  ```
 
-Ghi nhớ đường dẫn cài đặt (Ví dụ: C:\Program Files\Eclipse Adoptium\jdk-11.0.18.10-hotspot).
+### **Bước 2.2: Giải nén Spark**
 
-Bước 2.2: Giải nén Spark
-Giải nén file spark-3.5.1-bin-hadoop3.tgz (dùng WinRAR hoặc 7-Zip).
+* Giải nén file Spark.
+* Đặt vào thư mục gọn gàng, ví dụ:
 
-Di chuyển thư mục đã giải nén ra ổ đĩa gốc để tên ngắn gọn.
+  ```
+  D:\Spark\spark-3.5.1-bin-hadoop3
+  ```
 
-Ví dụ: D:\Spark\spark-3.5.1-bin-hadoop3
+### **Bước 2.3: Cài Winutils (Hadoop Home)**
 
-Bước 2.3: Cài đặt Winutils (Hadoop Home)
-Tạo thư mục: D:\Hadoop
+1. Tạo thư mục:
 
-Trong thư mục đó, tạo tiếp thư mục bin -> D:\Hadoop\bin
+   ```
+   D:\Hadoop
+   ```
+2. Tạo tiếp:
 
-Copy file winutils.exe (và hadoop.dll nếu có) vào thư mục D:\Hadoop\bin.
+   ```
+   D:\Hadoop\bin
+   ```
+3. Copy **winutils.exe** (và hadoop.dll nếu có) vào thư mục `bin`.
 
-Bước 2.4: Cấu hình Environment Variables
-Mở Edit the system environment variables trên Windows -> Bấm Environment Variables.
+### **Bước 2.4: Cấu hình Environment Variables**
 
-Tạo các biến mới (System Variables - Phần bên dưới):
+Mở: **Edit the system environment variables** → **Environment Variables**.
 
-JAVA_HOME: C:\Program Files\Eclipse Adoptium\jdk-11... (đường dẫn cài Java).
+#### **Tạo System Variables mới**:
 
-HADOOP_HOME: D:\Hadoop (Thư mục chứa folder bin).
+| Variable    | Value                                      |
+| ----------- | ------------------------------------------ |
+| JAVA_HOME   | C:\Program Files\Eclipse Adoptium\jdk-11.x |
+| HADOOP_HOME | D:\Hadoop                                  |
+| SPARK_HOME  | D:\Spark\spark-3.5.1-bin-hadoop3           |
 
-SPARK_HOME: D:\Spark\spark-3.5.1-bin-hadoop3
+#### **Cập nhật PATH**:
 
-Cập nhật biến PATH:
+Thêm 3 dòng sau:
 
-Tìm biến Path trong System Variables -> Bấm Edit.
-
-Thêm mới (New) các dòng sau:
-
+```
 %JAVA_HOME%\bin
-
 %HADOOP_HOME%\bin
-
 %SPARK_HOME%\bin
+```
 
-3. Cài đặt Database Cassandra (Docker)
-Sử dụng Docker để chạy Cassandra server nhanh chóng.
+---
 
-Mở CMD hoặc PowerShell.
+## 3. Cài đặt Database Cassandra (Docker)
 
+### **Kéo image Cassandra**
 
-Bash
-
+```bash
 docker pull cassandra:4.1
-Chạy Container:
+```
 
-Bash
+### **Chạy container**
 
+```bash
 docker run --name cass-node -d -p 9042:9042 cassandra:4.1
-Kiểm tra:
+```
 
-Bash
+### **Kiểm tra container**
 
+```bash
 docker ps
-(Nếu thấy trạng thái Up là thành công).
+```
 
-(Tùy chọn) Truy cập dòng lệnh CQLSH:
+Nếu thấy trạng thái **Up**, nghĩa là Cassandra đã chạy.
 
-Bash
+### **(Tùy chọn) Mở CQLSH**
 
+```bash
 docker exec -it cass-node cqlsh
-Gõ exit để thoát.
+```
 
-4. Thiết lập Môi trường Python
-Sử dụng venv để quản lý thư viện, tránh xung đột với hệ thống.
+Thoát:
 
-Bước 4.1: Tạo Virtual Environment
-Mở PowerShell tại thư mục dự án của bạn (Ví dụ: C:\Users\acer\MyProject):
+```
+exit
+```
 
-PowerShell
+---
 
-# Kiểm tra phiên bản Python 3.10
+## 4. Thiết lập Môi trường Python
+
+### **Bước 4.1: Tạo môi trường ảo**
+
+Mở PowerShell tại thư mục dự án:
+
+```powershell
 py -3.10 --version
-
-# Tạo môi trường ảo tên là 'cassandra_env'
 py -3.10 -m venv cassandra_env
-Bước 4.2: Kích hoạt môi trường
-PowerShell
+```
 
-# Windows PowerShell
+### **Bước 4.2: Kích hoạt môi trường ảo**
+
+```powershell
 cassandra_env\Scripts\activate
-Sau khi chạy, bạn sẽ thấy (cassandra_env) ở đầu dòng lệnh.
+```
 
-Bước 4.3: Cài đặt thư viện
-Copy và chạy lệnh sau để cài đặt toàn bộ thư viện cần thiết:
+### **Bước 4.3: Cài đặt thư viện Python**
 
-PowerShell
-
+```powershell
 pip install pyspark cassandra-driver pandas matplotlib seaborn numpy
-5. Dữ liệu dự án
-Dataset
+```
 
-GitLab: The Attentive Cursor Dataset
+---
 
-Chạy thử Code
-Trong file Python (src/analysis.py) tự tạo mới, đoạn code đầu tiên cần có để kiểm tra kết nối:
+## 5. Dữ liệu dự án
 
-Python
+Dataset: **The Attentive Cursor Dataset** (GitLab).
 
+---
+
+## #️⃣ Chạy thử code
+
+Tạo file `src/analysis.py` và chạy thử Spark:
+
+```python
 import os
 from pyspark.sql import SparkSession
 
-# Test Spark
 spark = SparkSession.builder \
     .appName("TestSetup") \
     .master("local[*]") \
@@ -165,3 +185,8 @@ spark = SparkSession.builder \
 
 print("Spark Version:", spark.version)
 print("Environment Setup Successful!")
+```
+
+---
+
+💡 **Nếu thấy in ra phiên bản Spark → bạn đã setup thành công 100%!**
